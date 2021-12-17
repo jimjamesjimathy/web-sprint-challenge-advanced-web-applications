@@ -8,7 +8,7 @@ const Article = (props)=> {
     return(<div data-testid="article">
         <ArticleStyle>
             <Container>
-                <p>{moment(article.createdOn).format("ddd, MMM Do YYYY")}</p>
+                {/* <p>{moment(article.createdOn).format("ddd, MMM Do YYYY")}</p> */}
                 <img src={`https://picsum.photos/id/${article.image}/300/300`}/>
             </Container>
             <Container>
