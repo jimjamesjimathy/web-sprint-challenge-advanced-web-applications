@@ -1,5 +1,32 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import axiosWithAuth from '../utils/axiosWithAuth';
+
+
+
+const FormContainer = styled.form`
+    padding: 1em;
+    width: 400px;
+    background: white;
+
+    label {
+        margin-top: 0.5em;
+    }
+
+    input {
+        padding: 0.5em;
+    }
+    
+    div { 
+        margin: 0.5em 0;
+    }
+`
+const Button = styled.button`
+    width: 100%;
+    padding:1em;
+    margin-top: 1em;
+`
 
 const initialArticle = {
     id:"",
@@ -12,6 +39,20 @@ const initialArticle = {
 const EditForm = (props)=> {
     const [article, setArticle]  = useState(initialArticle);
     const {handleEdit, handleEditCancel, editId} = props;
+    const token = localStorage.getItem('token');
+
+    useEffect(() => {
+        axiosWithAuth().get(`/articles/:${editId}`, {
+            headers: {
+                authorization: token
+            }
+        })
+            .then(res => {
+                setArticle(res.data)
+            })
+            .catch(err => console.log(err))
+    }, []);
+
 
     const handleChange = (e)=> {
         setArticle({
@@ -31,7 +72,8 @@ const EditForm = (props)=> {
         handleEditCancel();
     }
 
-    return(<FormContainer onSubmit={handleSubmit}>
+    return(
+    <FormContainer onSubmit={handleSubmit}>
         <h3>Edit Article</h3>
         <div>
             <label>Headline</label>
@@ -51,7 +93,8 @@ const EditForm = (props)=> {
         </div>
         <Button id="editButton">Edit Article</Button>
         <Button onClick={handleCancel}>Cancel</Button>
-    </FormContainer>);
+    </FormContainer>
+    );
 }
 
 export default EditForm;
@@ -59,27 +102,3 @@ export default EditForm;
 //Task List:
 // 1. On mount, make a http request to retrieve the article with the id `editId.`
 // 2. Save result of request to local state.
-
-const FormContainer = styled.form`
-    padding: 1em;
-    width: 400px;
-    background: white;
-
-    label {
-        margin-top: 0.5em;
-    }
-
-    input {
-        padding: 0.5em;
-    }
-    
-    div { 
-        margin: 0.5em 0;
-    }
-`
-
-const Button = styled.button`
-    width: 100%;
-    padding:1em;
-    margin-top: 1em;
-`
