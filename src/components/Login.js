@@ -1,8 +1,10 @@
+// All Imports 
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
+// Styled Components 
 const ComponentContainer = styled.div`
     height: 70%;
     justify-content: center;
@@ -21,6 +23,7 @@ const Label = styled.label`
     display: block;
     text-align: left;
     font-size: 1.5rem;
+    margin-bottom: 7%;
 `
 
 const FormGroup = styled.form`
@@ -35,19 +38,26 @@ const Input = styled.input`
 
 const Button = styled.button`
     padding:1rem;
-    width: 100%;
+    width: 35%;
+    background-color: #8ABCAD;
+    font-size: 20px;
+`
+const P = styled.p`
+    color: red;
+    font-size: 1.75rem;
 `
 
-
-
+// Login Component 
 const Login = () => {
+    // Deconstruct push from useHistory
     const { push } = useHistory();
+    // Set States 
     const [error, setError] = useState()
     const [credentials, setCredentials] = useState({
         username: 'Lambda',
         password: 'School'
     })
-
+    // Caputure the user input, spread the credentials, then set the values to the user input
     const handleChange = (e) => {
         console.log(e)
         setCredentials({
@@ -55,28 +65,26 @@ const Login = () => {
             [e.target.name]: e.target.value
         });
     }
-
+    // onClick, if username and password are correct, save the token in local storage, if not, show error message 
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.post('http://localhost:5000/api/login', credentials)
             .then(res => {
-                console.log(res);
                 localStorage.setItem('token', res.data.token)
-                push('/friends');
+                push('/view');
             })
             .catch(err => {
                 setError(err.response.data.error)
             })
     }
 
-
-    
     return(
         <ComponentContainer>
             <ModalContainer>
                 <h1>Welcome to Blogger Pro</h1>
                 <h2>Please enter your account information.</h2>
                 <FormGroup>
+                    <P id='error'>{error}</P>
                     <Label>
                         <h4>Username:</h4>                            
                         <Input 
@@ -97,9 +105,8 @@ const Login = () => {
                         >
                         </Input>
                     </Label>
-                        <Button id='submit' onClick={handleSubmit}>Submit</Button>
                 </FormGroup>
-                <p id='error'>{error}</p>
+                <Button id='submit' onClick={handleSubmit}>Submit</Button>
             </ModalContainer>
         </ComponentContainer>
         );
