@@ -1,10 +1,10 @@
+// All imports here
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axiosWithAuth from '../utils/axiosWithAuth';
 
-
-
+// Styled Components
 const FormContainer = styled.form`
     padding: 1em;
     width: 400px;
@@ -25,7 +25,6 @@ const Button = styled.button`
     padding:1em;
     margin-top: 1em;
 `
-
 const initialArticle = {
     id:"",
     headline: "",
@@ -35,10 +34,12 @@ const initialArticle = {
 };
 
 const EditForm = (props)=> {
+    // Set State
     const [article, setArticle]  = useState(initialArticle);
     const {handleEdit, handleEditCancel, editId} = props;
+    // Get the Auth token from localStorage
     const token = localStorage.getItem('token');
-
+    // On mount, get the selected article.
     useEffect(() => {
         axiosWithAuth().get(`/articles/:${editId}`, {
             headers: {
@@ -51,7 +52,6 @@ const EditForm = (props)=> {
             .catch(err => console.log(err))
     }, []);
 
-
     const handleChange = (e)=> {
         setArticle({
             ...article,
@@ -63,7 +63,6 @@ const EditForm = (props)=> {
         e.preventDefault();
         handleEdit(article);
     }
-
 
     const handleCancel = (e) => {
         e.preventDefault();
@@ -96,7 +95,3 @@ const EditForm = (props)=> {
 }
 
 export default EditForm;
-
-//Task List:
-// 1. On mount, make a http request to retrieve the article with the id `editId.`
-// 2. Save result of request to local state.

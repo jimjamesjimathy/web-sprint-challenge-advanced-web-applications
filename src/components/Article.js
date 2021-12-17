@@ -35,11 +35,9 @@ const ArticleStyle = styled.div`
     padding: 0.5em; 
     background: grey;
 `
-
 const Container = styled.div`
     padding: 0.5em; 
 `
-
 const ButtonContainer = styled.div`
     padding: 1em;
     text-transform: uppercase;

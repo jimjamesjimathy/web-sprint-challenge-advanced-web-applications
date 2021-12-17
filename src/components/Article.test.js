@@ -41,7 +41,6 @@ test('renders headline, author from the article when passed in through props', (
             expect(body).toBeInTheDocument();
         const summary = screen.queryByText(/summary/);
             expect(summary).toBeInTheDocument();
-
 });
 
 test('renders "Associated Press" when no author is given', ()=> {
@@ -53,11 +52,8 @@ test('renders "Associated Press" when no author is given', ()=> {
 
 test('executes handleDelete when the delete button is pressed', async ()=> {
     const mockDelete = jest.fn();
-
-  render(
-    <Article article={fakeBook} handleDelete={mockDelete}/>
-  );
+    render(<Article article={fakeBook} handleDelete={mockDelete}/>);
   
-  userEvent.click(screen.queryByTestId('deleteButton'))
-  await expect(mockDelete).toBeCalled();
+    userEvent.click(screen.queryByTestId('deleteButton'))
+    await expect(mockDelete).toBeCalled();
 });

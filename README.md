@@ -119,8 +119,28 @@ Be prepared to demonstrate your understanding of this week's concepts by answeri
 
 1. Explain what a token is used for.
 
+    - A token is used to tell the API that it's owner is authorized to access private routes and perfrom tasks that require said authorization. 
+
 2. What steps can you take in your web apps to keep your data secure?
+
+    - using React Router library will help to secure your app against URL-related weaknesses.
+    - JSON tokens also will help to secure data.
 
 3. Describe how web servers work.
 
+    - The process of how servers work is very straight forward. It's system of request and response. The user requests data from the server, the server finds said data and returns it the way the creator intended it to be.
+
 4. Which HTTP methods can be mapped to the CRUD acronym that we use when interfacing with APIs/Servers.
+
+
+    - Create: {
+            PUT with a new URI
+            POST to a base URI returning a newly created URI
+    } 
+            
+    - Read =
+            GET
+    - Update =
+            PUT with an existing URI
+    - Delete = 
+            DELETE
