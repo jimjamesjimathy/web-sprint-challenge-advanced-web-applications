@@ -20,9 +20,9 @@ test('renders component without errors', ()=> {
     render(<Article article={fakeBook}/>)
 });
 
-// test('renders headline, author from the article when passed in through props', ()=> {
-
-// });
+test('renders headline, author from the article when passed in through props', ()=> {
+    
+});
 
 // test('renders "Associated Press" when no author is given', ()=> {
 // });
