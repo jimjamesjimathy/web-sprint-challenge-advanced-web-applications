@@ -1,25 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
-
-const Login = () => {
-    
-    return(<ComponentContainer>
-        <ModalContainer>
-            <h1>Welcome to Blogger Pro</h1>
-            <h2>Please enter your account information.</h2>
-        </ModalContainer>
-    </ComponentContainer>);
-}
-
-export default Login;
-
-//Task List
-//1. Build login form DOM from scratch, making use of styled components if needed. Make sure the username input has id="username" and the password input as id="password".
-//2. Add in a p tag with the id="error" under the login form for use in error display.
-//3. Add in necessary local state to support login form and error display.
-//4. When login form is submitted, make an http call to the login route. Save the auth token on a successful response and redirect to view page.
-//5. If the response is not successful, display an error statement. **a server provided error message can be found in ```err.response.data```**
-//6. MAKE SURE TO ADD id="username", id="password", id="error" AND id="submit" TO THE APPROPRIATE DOM ELEMENTS. YOUR AUTOTESTS WILL FAIL WITHOUT THEM.
+import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 const ComponentContainer = styled.div`
     height: 70%;
@@ -55,3 +37,72 @@ const Button = styled.button`
     padding:1rem;
     width: 100%;
 `
+
+
+
+const Login = () => {
+    const { push } = useHistory();
+    const [error, setError] = useState()
+    const [credentials, setCredentials] = useState({
+        username: 'Lambda',
+        password: 'School'
+    })
+
+    const handleChange = (e) => {
+        console.log(e)
+        setCredentials({
+            ...credentials,
+            [e.target.name]: e.target.value
+        });
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        axios.post('http://localhost:5000/api/login', credentials)
+            .then(res => {
+                console.log(res);
+                localStorage.setItem('token', res.data.token)
+                push('/friends');
+            })
+            .catch(err => {
+                setError(err.response.data.error)
+            })
+    }
+
+
+    
+    return(
+        <ComponentContainer>
+            <ModalContainer>
+                <h1>Welcome to Blogger Pro</h1>
+                <h2>Please enter your account information.</h2>
+                <FormGroup>
+                    <Label>
+                        <h4>Username:</h4>                            
+                        <Input 
+                            input='text'
+                            id='username'
+                            name='username'
+                            onChange={handleChange}
+                        >
+                        </Input>
+                    </Label>
+                    <Label>
+                        <h4>Password:</h4>                
+                        <Input 
+                            input='text'
+                            id='password'
+                            name='password'
+                            onChange={handleChange}
+                        >
+                        </Input>
+                    </Label>
+                        <Button id='submit' onClick={handleSubmit}>Submit</Button>
+                </FormGroup>
+                <p id='error'>{error}</p>
+            </ModalContainer>
+        </ComponentContainer>
+        );
+    };
+
+export default Login;
