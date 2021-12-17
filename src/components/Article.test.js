@@ -7,13 +7,23 @@ import MutationObserver from 'mutationobserver-shim';
 import Article from './Article';
 
 const fakeBook = {
-    author: "Johnathan Diss",
-    body: "something something I'm a writer",
+    author: "author",
+    body: "body",
     createdOn: "2021-12-16T23:56:57-07:00",
-    headline: "Onions are making a comeback!",
+    headline: "headline",
     id: "TFZzv",
     image: 134,
-    summary: "The moral of the story is... onions, man.",
+    summary: "summary",
+}
+
+const fakeBook2 = {
+    author: "",
+    body: "body",
+    createdOn: "2021-12-16T23:56:57-07:00",
+    headline: "headline",
+    id: "TFZzv",
+    image: 134,
+    summary: "summary",
 }
 
 test('renders component without errors', ()=> {
@@ -21,14 +31,33 @@ test('renders component without errors', ()=> {
 });
 
 test('renders headline, author from the article when passed in through props', ()=> {
-    
+    render(<Article article={fakeBook}/>)
+
+        const headline = screen.queryByText(/headline/);
+            expect(headline).toBeInTheDocument();
+        const author = screen.queryByText(/author/);
+            expect(author).toBeInTheDocument();
+        const body = screen.queryByText(/body/);
+            expect(body).toBeInTheDocument();
+        const summary = screen.queryByText(/summary/);
+            expect(summary).toBeInTheDocument();
+
 });
 
-// test('renders "Associated Press" when no author is given', ()=> {
-// });
+test('renders "Associated Press" when no author is given', ()=> {
+    render(<Article article={fakeBook2}/>)
 
-// test('executes handleDelete when the delete button is pressed', ()=> {
-// });
+    const assPress = screen.queryByText(/Associated Press/i)
+        expect(assPress).toBeInTheDocument();
+});
 
-//Task List:
-//1. Complete all above tests. Create test article data when needed.
+test('executes handleDelete when the delete button is pressed', async ()=> {
+    const mockDelete = jest.fn();
+
+  render(
+    <Article article={fakeBook} handleDelete={mockDelete}/>
+  );
+  
+  userEvent.click(screen.queryByTestId('deleteButton'))
+  await expect(mockDelete).toBeCalled();
+});
