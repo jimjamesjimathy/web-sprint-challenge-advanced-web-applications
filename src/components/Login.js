@@ -52,7 +52,7 @@ const Login = () => {
     // Deconstruct push from useHistory
     const { push } = useHistory();
     // Set States 
-    const [error, setError] = useState()
+    const [error, setError] = useState('')
     const [credentials, setCredentials] = useState({
         username: 'Lambda',
         password: 'School'

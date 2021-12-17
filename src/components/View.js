@@ -62,7 +62,7 @@ const View = (props) => {
     }, []);
     // remove the selected movie and return the edited list of movies
     const handleDelete = (id) => {
-        setArticles(articles.filter(article => (article.id !== id)));
+        setArticles(articles.filter(article => (article.id !== (id))));
     }
 
     // update the selected article and add it to state.
@@ -73,7 +73,7 @@ const View = (props) => {
             }
         })
             .then(res => {
-                setArticles(res.data)
+                setArticles(res.data);
             })
             .catch(err => console.log(err))
     }

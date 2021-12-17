@@ -9,11 +9,9 @@ const FormContainer = styled.form`
     padding: 1em;
     width: 400px;
     background: white;
-
     label {
         margin-top: 0.5em;
     }
-
     input {
         padding: 0.5em;
     }
